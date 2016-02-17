@@ -5,14 +5,15 @@ module loop(clk, reset, ready, out, a, b);
     output [15:0] out;
     output ready;
 
-    reg [15:0] cur_a, cur_b, sum;
+    reg [15:0] cur_a, cur_b, sum, ready_reg;
 
     assign out = sum;
-    assign ready = cur_b == 0;
+    assign ready = ready_reg;
 
     initial begin
         cur_a <= 0;
         cur_b <= 0;
+        ready_reg <= 0;
     end
 
     always @(posedge clk) begin
@@ -22,7 +23,10 @@ module loop(clk, reset, ready, out, a, b);
             cur_b[7:0] <= b[7:0];
             cur_b[15:8] <= 0;
             sum[15:0] <= 0;
+            ready_reg <= 0;
         end
+        else if (cur_b == 0)
+            ready_reg <= 1;
         else begin
             if (cur_b[0] == 1)
                 sum <= sum + cur_a;

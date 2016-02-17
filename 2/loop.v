@@ -5,7 +5,7 @@ module loop(clk, reset, ready, out, a, b);
     output [15:0] out;
     output ready;
 
-    reg [15:0] cur_a, cur_b, sum, ready_reg;
+    reg [15:0] cur_a, cur_b, sum;
 
     assign out = sum;
     assign ready = cur_b == 0;

@@ -8,32 +8,27 @@ module loop(clk, reset, ready, out, a, b);
     reg [15:0] cur_a, cur_b, sum, ready_reg;
 
     assign out = sum;
-    assign ready = ready_reg;
+    assign ready = cur_b == 0;
 
     initial begin
-        ready_reg <= 0;
         cur_a <= 0;
         cur_b <= 0;
     end
 
     always @(posedge clk) begin
         if (reset == 1) begin
-            ready_reg <= 0;
             cur_a[7:0] <= a[7:0];
             cur_a[15:8] <= 0;
             cur_b[7:0] <= b[7:0];
             cur_b[15:8] <= 0;
             sum[15:0] <= 0;
         end
-
-        if (cur_b[7:0] != 0) begin
+        else begin
             if (cur_b[0] == 1)
                 sum <= sum + cur_a;
             cur_a <= cur_a << 1;
             cur_b <= cur_b >> 1;
         end
-        else
-            ready_reg = 1;
     end
 
 endmodule

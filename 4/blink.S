@@ -15,12 +15,13 @@ reset:
 	out SPL, r16
 
 	rcall setup
-	sei
 
 	ldi r18, bit(5)
 	clr r20
 	out DDRB, r18
     out PORTB, r20
+
+	sei
 loop:
 	rjmp loop
 
